@@ -4,7 +4,7 @@
  	JasperE - https://github.com/JasperE84/ISAH_ERP_Community/
 
  Tested with:
-        ISAH v4.7.1
+        ISAH v5.8
 
  License:		
         GNU General Public License version 3
@@ -110,7 +110,13 @@ EndIf
 
 ; Start Isah met autologin
 LogToFile("Start Isah opnieuw op met autologin.")
-ShellExecute("C:\Program Files (x86)\Isah\Isah7\Progs\Isah7.exe","/usr:ISAHUSERNAME /pwd:ISAHPASSWORD /dba:""ISAHDBNAME""")
+ShellExecute("C:\Program Files (x86)\Isah\Isah7\Progs\Isah7.exe")
+
+;Wait for window to initialize, quick fix for isah 5.8 support, since 4.7 command line param support for user pass database selection is dropped
+Sleep(1000)
+ControlSend("[CLASS:TLoginForm]", "", "[CLASS:TEdit; INSTANCE:2]","{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}{DEL}ISAHUSERNAME", 0)
+ControlSend("[CLASS:TLoginForm]", "", "[CLASS:TEdit; INSTANCE:1]","ISAHPASSWORD", 0)
+ControlSend("[CLASS:TLoginForm]", "", "[CLASS:TButton; INSTANCE:2]","{ENTER}", 0)
 
 ; Wacht op beschikbaar komen hoofdscherm
 Local $secondsWaited = 0
